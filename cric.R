@@ -80,6 +80,6 @@ qplot(Venue,data=df.all[df.all$Runs>100 & !is.na(df.all$Runs),],geom='bar')
 qplot(Venue,data=df.all[df.all$Runs>100 & !is.na(df.all$Runs) & df.all$Start.Date>"1959-01-01",],geom='bar')
 qplot(Venue,data=df.all[df.all$Runs>100 & !is.na(df.all$Runs) & df.all$Start.Date>"1959-01-01" & df.all$Opposition==df.all$Venue,],geom='bar')
 
-qplot(df.all$Start.Date)
+qplot(df.all$Start.Date,df.all$Runs)
 #now a small unsupervised cluster algorithm to identify matches and batting orders
 
