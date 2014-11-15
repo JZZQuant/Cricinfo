@@ -2,7 +2,13 @@
 df.raw<-read.csv('Cricket.csv',stringsAsFactors=F)
 df.all<-transform(df.raw,Player=as.factor(Player),Country=as.factor(gsub('([[:punct:]])|\\s+','',Country)),Inns=as.factor(Inns),Opposition=as.factor(Opposition),Ground=as.factor(Ground))
 #cric info fucks up date time formatting
-dates<-c(transform(df.all[1:2635,],Start.Date=as.Date(Start.Date,"%d %b %Y"))$Start.Date,transform(df.all[2636:85520,],Start.Date=as.Date(Start.Date,"%d-%b-%y",origin = "1899-12-30"))$Start.Date)
+fault<-transform(df.all[2636:25724,],Start.Date=as.Date(Start.Date,"%d-%b-%y",origin = "1899-12-30"))$Start.Date
+fault<-as.POSIXlt(fault)
+fault$year<-fault$year-100
+dates<-c(transform(df.all[1:2635,],Start.Date=as.Date(Start.Date,"%d %b %Y"))$Start.Date,
+         as.Date(fault),
+         transform(df.all[25725:85520,],Start.Date=as.Date(Start.Date,"%d-%b-%y",origin = "1899-12-30"))$Start.Date)
+
 df.all<-transform(df.all,Start.Date=dates)
 df.all<-transform(df.all,Minutes=as.numeric(gsub('([[:punct:]])|\\s+','',Minutes)))
 df.all<-transform(df.all,Runs=as.numeric(gsub('([[:punct:]])|\\s+','',Runs)))
@@ -74,6 +80,6 @@ qplot(Venue,data=df.all[df.all$Runs>100 & !is.na(df.all$Runs),],geom='bar')
 qplot(Venue,data=df.all[df.all$Runs>100 & !is.na(df.all$Runs) & df.all$Start.Date>"1959-01-01",],geom='bar')
 qplot(Venue,data=df.all[df.all$Runs>100 & !is.na(df.all$Runs) & df.all$Start.Date>"1959-01-01" & df.all$Opposition==df.all$Venue,],geom='bar')
 
-
+qplot(df.all$Start.Date)
 #now a small unsupervised cluster algorithm to identify matches and batting orders
 
