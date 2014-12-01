@@ -16,7 +16,7 @@ df.all<-transform(df.all,Balls.Faced=as.numeric(gsub('([[:punct:]])|\\s+','',Bal
 df.all<-transform(df.all,Fours=as.numeric(gsub('([[:punct:]])|\\s+','',Fours)))
 df.all<-transform(df.all,Sixes=as.numeric(df.all$Country<-as.factor(gsub('([[:punct:]])|\\s+','',df.raw$Country))
 ))
-df.all<-transform(df.all,Strike.Rate=as.numeric(gsub('([[:punct:]])|\\s+','',Strike.Rate)))
+df.all<-transform(df.raw,Strike.Rate=as.numeric(Strike.Rate))
 
 #add new columns for important data lost during grepping
 df.all$Not.Out=grepl('\\*$',df.raw$Runs)
